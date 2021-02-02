@@ -33,6 +33,5 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with unittest
       run: |
-        service mysql restart
         export MYSQL_DB=coworking_test
         python3 test_app.py

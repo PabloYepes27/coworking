@@ -1,6 +1,5 @@
 import unittest
 import os
-import requests
 import json
 from flask import jsonify
 from datetime import datetime, timedelta

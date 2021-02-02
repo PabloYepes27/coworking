@@ -1,7 +1,7 @@
 from flask import request, jsonify
-from app import app, db
 from models.model import Spaces, SpaceSchema
 from models.use_cases.validation_handler import handler_validations
+from app import app, db
 
 
 @app.route('/api/reservation', methods=['GET'])

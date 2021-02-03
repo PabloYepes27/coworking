@@ -87,7 +87,7 @@ Enter password root:
   You can run the app with
 
 ```
-(venv) USER$: python3 app.py
+(venv) USER$: python3 app/app.py
 ```
 
 ## API tests:clipboard:
@@ -96,7 +96,8 @@ To test the app you must set the MYSQL_DB variable to "testprueba" and run the *
 
 ```bash
 (venv) USER$: export MYSQL_DB=coworking_test
-(venv) USER$: python3 test_app.py
+(venv) USER$: python3 tests/test_models.py
+(venv) USER$: python3 tests/test_controllers.py
 ```
 
 ## Author

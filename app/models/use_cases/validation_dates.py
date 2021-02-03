@@ -1,5 +1,4 @@
 from flask import request
-from app import app, db
 from datetime import datetime, date
 import re
 

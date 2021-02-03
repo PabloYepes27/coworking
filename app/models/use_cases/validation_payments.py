@@ -1,6 +1,4 @@
 from flask import request
-from app import app, db
-from models.model import Spaces, SpaceSchema
 import re
 
 

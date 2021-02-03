@@ -4,8 +4,10 @@ import json
 from flask import jsonify
 from datetime import datetime, timedelta
 import sys
+from faker import Faker
 
 from app import app, db
+from models.model import Spaces
 from test_models import format_dates
 
 
@@ -17,6 +19,14 @@ class ControllersTestCase(unittest.TestCase):
 
     def setUp(self):
         """ initialize the app and the db"""
+        # self.fake = Faker()
+        # self.reservation = Spaces(
+        #     total_value = self.fake.total_value(),
+        #     payed_value = self.fake.payed_value(),
+        #     status = self.fake.status(),
+        #     date_in = self.fake.date_in(),
+        #     date_out = self.fake.date_out()
+        # )
         self.app = app
         app.config['TESTING'] = True
         self.app = app.test_client()
@@ -57,6 +67,10 @@ class ControllersTestCase(unittest.TestCase):
             "date_out": date_out
         }
         self.app.post(URL, json=reservation)
+
+        res = self.app.get(URL)
+        response = json.loads(res.get_data().decode(sys.getdefaultencoding()))
+
         reservation = {"space_id": 1}
         res = self.app.delete(URL,
                               data=reservation,

@@ -6,7 +6,7 @@ from flask import jsonify
 from datetime import datetime, timedelta
 import sys
 
-from app import app, db
+# from app import app, db
 from models.use_cases.validation_payments import check_payment
 from models.use_cases.validation_dates import (
     valid_date,

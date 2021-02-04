@@ -1,8 +1,8 @@
 from flask import request
 from app import app, db
 from datetime import datetime, date
-from models.use_cases.validation_payments import check_payment
-from models.use_cases.validation_dates import valid_date, valid_date_in, valid_reservation_duration, convert_to_db
+from models.actions.validation_payments import check_payment
+from models.actions.validation_dates import valid_date, valid_date_in, valid_reservation_duration, convert_to_db
 
 def handler_validations(request):
     """
@@ -19,19 +19,19 @@ def handler_validations(request):
     date_out = request.json['date_out']
 
     # result, e = check_status(status)
-    # if e == 400:
+    # if e == True:
     #     return (result, e)
     result, e = check_payment(total_value, payed_value)
-    if e == 400:
+    if e == True:
         return (result, e)
     result, e = valid_date(date_in, date_out)
-    if e == 400:
+    if e == True:
         return (result, e)
     result, e = valid_date_in(date_in)
-    if e == 400:
+    if e == True:
         return (result, e)
     result, e = valid_reservation_duration(date_in, date_out)
-    if e == 400:
+    if e == True:
         return (result, e)
     space = convert_to_db(request)
-    return(space, 200)
+    return(space, False)

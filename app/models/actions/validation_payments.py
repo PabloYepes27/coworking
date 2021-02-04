@@ -13,9 +13,9 @@ def check_payment(total_value, payed_value):
         fechaPago ([Str]): [date]
     """
     if (int(payed_value) < int(total_value) * 0.1):
-        return ("El valor de la reserva debe ser mayor al 10% del valor del espacio", 400)
+        return ("El valor de la reserva debe ser mayor al 10% del valor del espacio", True)
     else:
-        return ("correcto", 200)
+        return ("correcto", False)
 
 
 # def update_payment(pago, valorPagado, fechaPago):

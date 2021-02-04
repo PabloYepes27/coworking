@@ -13,17 +13,17 @@ def valid_date(date_in, date_out):
     x = re.search("^\d{2}\/\d{2}\/\d{4}$", date_in)
     y = re.search("^\d{2}\/\d{2}\/\d{4}$", date_out)
     if x and y:
-        return ("Correcto", 200)
+        return ("Correcto", False)
     else:
-        return ("Formato de fechas incorrecto", 400)
+        return ("Formato de fechas incorrecto", True)
 
 def valid_date_in(date_in):
     today = datetime.today()
     date_in = "{}{}".format(date_in[0:6], date_in[-2:])
     date_in = datetime.strptime(date_in, '%d/%m/%y')
     if abs(date_in - today).days < 2:
-        return ("La reserva debe hacerse con mínimo 2 días de anticipación", 400)
-    return ("Correcto", 200)
+        return ("La reserva debe hacerse con mínimo 2 días de anticipación", True)
+    return ("Correcto", False)
 
 def valid_reservation_duration(date_in, date_out):
     date_in = "{}{}".format(date_in[0:6], date_in[-2:])
@@ -33,8 +33,8 @@ def valid_reservation_duration(date_in, date_out):
     date_out = datetime.strptime(date_out, '%d/%m/%y')
 
     if abs(date_out - date_in).days > 14:
-        return ("La duración de la reserva no puede superar las dos semanas", 400)
-    return ("Correcto", 200)
+        return ("La duración de la reserva no puede superar las dos semanas", True)
+    return ("Correcto", False)
 
 def convert_to_db(request):
     """function to convert the dates formats

@@ -7,8 +7,8 @@ from datetime import datetime, timedelta
 import sys
 
 
-from models.use_cases.validation_payments import check_payment
-from models.use_cases.validation_dates import (
+from models.actions.validation_payments import check_payment
+from models.actions.validation_dates import (
     valid_date,
     valid_date_in,
     valid_reservation_duration,
@@ -40,7 +40,7 @@ class BussinessLogicTestCase(unittest.TestCase):
         message1, e1 = valid_date(good_date_in, good_date_out)
         message2, e2 = valid_date(bad_date_in, bad_date_out)
 
-        self.assertEqual(e1, 200)
+        self.assertEqual(e1, False)
 
     def test_valid_date_failed(self):
         good_date_in = "12/05/2019"
@@ -51,7 +51,7 @@ class BussinessLogicTestCase(unittest.TestCase):
         message1, e1 = valid_date(good_date_in, good_date_out)
         message2, e2 = valid_date(bad_date_in, bad_date_out)
 
-        self.assertEqual(e2, 400)
+        self.assertEqual(e2, True)
 
     def test_valid_date_message(self):
         good_date_in = "12/05/2019"
@@ -66,7 +66,28 @@ class BussinessLogicTestCase(unittest.TestCase):
         self.assertEqual(message2, expected_bad_message)
 
 
-    def test_valid_date_in(self):
+    def test_valid_date_in_passed(self):
+        today = datetime.today()
+        good_date_in = format_dates(today + timedelta(5))
+        bad_date_in = format_dates(today + timedelta(1))
+
+        message1, e1 = valid_date_in(good_date_in)
+        message2, e2 = valid_date_in(bad_date_in)
+
+        self.assertEqual(e1, False)
+
+
+    def test_valid_date_in_failed(self):
+        today = datetime.today()
+        good_date_in = format_dates(today + timedelta(5))
+        bad_date_in = format_dates(today + timedelta(1))
+
+        message1, e1 = valid_date_in(good_date_in)
+        message2, e2 = valid_date_in(bad_date_in)
+
+        self.assertEqual(e2, True)
+
+    def test_valid_date_in_message(self):
         today = datetime.today()
         good_date_in = format_dates(today + timedelta(5))
         bad_date_in = format_dates(today + timedelta(1))
@@ -76,8 +97,6 @@ class BussinessLogicTestCase(unittest.TestCase):
         message1, e1 = valid_date_in(good_date_in)
         message2, e2 = valid_date_in(bad_date_in)
 
-        self.assertEqual(e1, 200)
-        self.assertEqual(e2, 400)
         self.assertEqual(message2, expected_bad_message)
 
 
@@ -91,7 +110,7 @@ class BussinessLogicTestCase(unittest.TestCase):
         message1, e1 = valid_reservation_duration(good_date_in, good_date_out)
         message2, e2 = valid_reservation_duration(good_date_in, bad_date_out)
 
-        self.assertEqual(e1, 200)
+        self.assertEqual(e1, False)
 
     def test_valid_reservation_duration_failed(self):
         today = datetime.today()
@@ -102,7 +121,7 @@ class BussinessLogicTestCase(unittest.TestCase):
         message1, e1 = valid_reservation_duration(good_date_in, good_date_out)
         message2, e2 = valid_reservation_duration(good_date_in, bad_date_out)
 
-        self.assertEqual(e2, 400)
+        self.assertEqual(e2, True)
 
     def test_valid_reservation_duration_message(self):
         today = datetime.today()
@@ -121,27 +140,27 @@ class BussinessLogicTestCase(unittest.TestCase):
     def test_check_payment_passed(self):
         total_value = 50000
         good_payed_value = 7000
-        bad_payed_value = 2000
+        bad_payed_value = 4200
 
         message1, e1 = check_payment(total_value, good_payed_value)
         message2, e2 = check_payment(total_value, bad_payed_value)
 
-        self.assertEqual(e1, 200)
+        self.assertEqual(e1, False)
 
     def test_check_payment_failed(self):
         total_value = 50000
         good_payed_value = 7000
-        bad_payed_value = 2000  
+        bad_payed_value = 4200  
 
         message1, e1 = check_payment(total_value, good_payed_value)
         message2, e2 = check_payment(total_value, bad_payed_value)
 
-        self.assertEqual(e2, 400)
+        self.assertEqual(e2, True)
 
     def test_check_payment_failed_message(self):
         total_value = 50000
         good_payed_value = 7000
-        bad_payed_value = 2000
+        bad_payed_value = 4200
 
         expected_bad_message = "El valor de la reserva debe ser mayor al 10% del valor del espacio"  
 

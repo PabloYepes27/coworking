@@ -96,6 +96,7 @@ To test the app you must set the MYSQL_DB variable to "testprueba" and run the *
 
 ```bash
 (venv) USER$: export MYSQL_DB=coworking_test
+(venv) USER$: export PYTHONPATH=app
 (venv) USER$: python3 tests/test_models.py
 (venv) USER$: python3 tests/test_controllers.py
 ```

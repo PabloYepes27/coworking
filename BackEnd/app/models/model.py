@@ -10,6 +10,7 @@ class Spaces(db.Model):
     Args:
         db ([type]): [Connection to the SQLAlchemy]
     """
+    __tablename__ = 'spaces'
     space_id = db.Column(db.Integer, primary_key=True, nullable=False)
     total_value = db.Column(db.Integer, nullable=False)
     payed_value = db.Column(db.Integer, nullable=False)
@@ -35,7 +36,7 @@ class SpaceSchema(ma.Schema):
         ma ([type]): [Connection to Marshmallow class]
     """
     class Meta:
-        fields = ('total_value', 'payed_value',
+        fields = ('space_id', 'total_value', 'payed_value',
          'status', 'date_in', 'date_out')
 
 

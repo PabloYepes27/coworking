@@ -52,11 +52,16 @@ def convert_to_db(request):
     day, month, year = request.json['date_out'].split('/')
     date_out = "{}-{}-{}".format(year, month, day)
 
-    space_db = []
-    space_db.append(request.json['total_value'])
-    space_db.append(request.json['payed_value'])
-    space_db.append(request.json['status'])
-    space_db.append(date_in)
-    space_db.append(date_out)
+    space_db = request.json
+    print("###################")
+    print(request.json)
 
-    return (space_db)
+    # space_db.append(request.json['total_value'])
+    # space_db.append(request.json['payed_value'])
+    # space_db.append(request.json['status'])
+    space_db['date_in']=date_in
+    space_db['date_out']=date_out
+    print(space_db)
+    print(request.json)
+
+    return (request.json)

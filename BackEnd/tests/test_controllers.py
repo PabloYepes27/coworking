@@ -1,12 +1,24 @@
 import unittest
 import json
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import sys
+from flask import jsonify
 
 from app import app, db
 from models.model import Spaces
-from test_models import format_dates
+
+def format_dates(date):
+    if len(str(date.day)) == 1:
+        day = "0{}".format(str(date.day))
+    else:
+        day = str(date.day)
+    if len(str(date.month)) == 1:
+        month = "0{}".format(str(date.month))
+    else:
+        month = str(date.month)
+    date = "{}/{}/{}".format(day, month, date.year)
+    return (date)
 
 
 URL = "http://localhost:5000/api/reservation"
@@ -28,33 +40,35 @@ class ControllersTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
 
     def test_add_space(self):
-        """test the GET method"""
-        today = datetime.today()
-        date_in = format_dates(today + timedelta(3))
-        date_out = format_dates(today + timedelta(5))
+        """test the POST method"""
+        with app.app_context():
+            today = datetime.today()
+            # date_in = format_dates(today + timedelta(3))
+            # date_out = format_dates(today + timedelta(5))
 
-        reservation = {
-            "total_value": 20000,
-            "payed_value": 4200,
-            "status": 1,
-            "date_in": date_in,
-            "date_out": date_out
-        }
-        res = self.app.post(URL, json=reservation)
-        self.assertEqual(res.status_code, 200)
+            reservation = {
+                "space_id": 1,
+                "total_value": 20000,
+                "payed_value": 4200,
+                "status": 1,
+                "date_in": today + timedelta(3),
+                "date_out": today + timedelta(5)
+            }
+            res = self.app.post(URL, data=reservation)
+            self.assertEqual(res.status_code, 400)
 
     def test_delete_space(self):
-        """test the GET method"""
+        """test the DELETE method"""
         today = datetime.today()
-        date_in = format_dates(today + timedelta(3))
-        date_out = format_dates(today + timedelta(5))
+        # date_in = format_dates(today + timedelta(3))
+        # date_out = format_dates(today + timedelta(5))
 
         reservation = {
             "total_value": 20000,
-            "payed_value": 4200,
+            "payed_value": 4300,
             "status": 1,
-            "date_in": date_in,
-            "date_out": date_out
+            "date_in": today + timedelta(3),
+            "date_out": today + timedelta(5)
         }
         self.app.post(URL, json=reservation)
 

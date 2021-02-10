@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from models.model import Spaces, SpaceSchema
 from models.actions.validation_handler import handler_validations
-from models.database.database import create, read_all, read_id, update, delete
+from models.database.database import create_reservation, read_all, read_id, update_reservation, delete_reservation
 from app import app, db
 
 
@@ -16,8 +16,8 @@ def get_spaces():
     result = read_all()
     return jsonify(result)
 
-@app.route('/api/reservation', methods=['Post'])
-def add_space():
+@app.route('/api/reservation', methods=['post'])
+def add_reservations():
     """
     Endpoint to make a reservation
 
@@ -25,14 +25,28 @@ def add_space():
         [Dict]: [return a dictionary with the response message
             depending on the type of payment]
     """
-    result, e = handler_validations(request)
+    space_id = request.json['space_id']
+    old = read_id(space_id)
+    result, e = handler_validations(request, old)
     if e == True:
       return jsonify({'respuesta': result}), 400
-    create(result)
-    return jsonify({'respuesta': "Reserva correctamente agregada"})
+    create_reservation(result, space_id)
+    return jsonify({'respuesta': "Reserva correctamente añadida"})
 
-@app.route('/api/reservation', methods=['delete'])
-def delete_space():
+@app.route('/api/reservation/<space_id>', methods=['delete'])
+def delete_reservations(space_id):
+    """
+    Endpoint to delete a reservation
+
+    Returns:
+        [list]: [list of spaces]
+    """
+    print(space_id)
+    delete_reservation(space_id)
+    return jsonify({"respuesta": "Reserva correctamente eliminada"})
+
+@app.route('/api/reservation', methods=['put'])
+def update_reservations():
     """
     Endpoint to delete a reservation
 
@@ -40,19 +54,9 @@ def delete_space():
         [list]: [list of spaces]
     """
     space_id = request.json['space_id']
-    delete(space_id)
-    return jsonify({"respuesta": "Reserva correctamente eliminada"})
-
-@app.route('/api/reservation', methods=['put'])
-def update_space():
-    """
-    Endpoint to delete a reservation
-
-    Returns:
-        [list]: [list of spaces]
-    """
-    result, e = handler_validations(request)
+    old = read_id(space_id)
+    result, e = handler_validations(request, old)
     if e == True:
       return jsonify({'respuesta': result}), 400
-    update(request.json)
-    return jsonify({"respuesta": "Reserva correctamente eliminada"})
+    update_reservation(result, space_id)
+    return jsonify({"respuesta": "Reserva correctamente actualizada"})

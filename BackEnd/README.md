@@ -64,7 +64,7 @@ Now you can work with the folder containing the application inside your environm
   **Note:** This is going to create two schemas **pruebaceiba** and **testprueba** (for the test enviroment)
 
 ```
-(venv) USER$: cat schema.sql | sudo mysql -hlocalhost -uroot -p
+(venv) USER$: cat schema.sql | mysql -hlocalhost -uroot -p
 Enter password sudo:
 Enter password root:
 ```

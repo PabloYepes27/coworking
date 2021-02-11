@@ -56,6 +56,7 @@ def update_reservations():
     print("### request >>", request)
     print("### request.json >>", request.json)
     print("### request.json['space_id'] >>", request.json['space_id'])
+    
     space_id = request.json['space_id']
     old = read_id(space_id)
     result, e = handler_validations(request, old)

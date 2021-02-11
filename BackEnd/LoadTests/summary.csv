@@ -1,0 +1,5 @@
+Label,# Samples,Average,Min,Max,Std. Dev.,Error %,Throughput,Received KB/sec,Sent KB/sec,Avg. Bytes
+reservation(GET),918,16,3,172,13.20,0.000%,30.70337,39.43,4.02,1315.0
+reservation(DELETE),918,24,4,375,27.56,0.000%,30.69926,6.90,6.66,230.0
+reservation(PUT),2636,33,2,418,30.11,100.000%,.68795,16.51,0.23,24576.8
+TOTAL,4472,27,2,418,27.76,58.945%,1.16710,16.87,0.32,14803.8

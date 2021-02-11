@@ -41,7 +41,7 @@ def delete_reservations(space_id):
     Returns:
         [list]: [list of spaces]
     """
-    print(space_id)
+    # print(space_id)
     delete_reservation(space_id)
     return jsonify({"respuesta": "Reserva correctamente eliminada"})
 
@@ -53,6 +53,9 @@ def update_reservations():
     Returns:
         [list]: [list of spaces]
     """
+    print("### request >>", request)
+    print("### request.json >>", request.json)
+    print("### request.json['space_id'] >>", request.json['space_id'])
     space_id = request.json['space_id']
     old = read_id(space_id)
     result, e = handler_validations(request, old)
